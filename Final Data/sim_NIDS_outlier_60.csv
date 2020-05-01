@@ -1,0 +1,4 @@
+"","itct_model","slope_model","itct_cases","slope_cases","sigma_cases","itct_cases_bca","slope_cases_bca","sigma_cases_bca","itct_boot_resid","slope_boot_resid","sigma_boot_resid","itct_boot_resid_bca","slope_boot_resid_bca","sigma_boot_resid_bca","itct_wild","slope_wild","sigma_wild","itct_wild_bca","slope_wild_bca","sigma_wild_bca"
+"coverage",0.988,0.98,0.974,0.964,0.888,0.974,0.964,0.878,0.97,0.962,0.88,0.972,0.964,0.88,0.974,0.966,0.888,0.974,0.964,0.872
+"too_high",0.012,0,0.024,0,0.112,0.022,0,0.122,0.026,0,0.12,0.024,0,0.12,0.024,0,0.112,0.024,0,0.128
+"too_low",0,0.02,0.002,0.036,0,0.004,0.036,0,0.004,0.038,0,0.004,0.036,0,0.002,0.034,0,0.002,0.036,0
