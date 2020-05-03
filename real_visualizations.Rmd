@@ -1,0 +1,184 @@
+---
+title: "real_visualizations"
+author: "Andrew Lin"
+date: "5/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r}
+real_data<-read.csv("real_data_full.csv")
+real_data<-data.frame(real_data)
+real_data$method<-factor(real_data$method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca"))
+```
+
+##Bootstrap Coverage Real Hetero
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="coverage"&data_type=="real_hetero")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  geom_hline(yintercept=0.95,colour="red")+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Coverage",title="Bootstrap Method Coverage - Real Heteroskedastic Data ")+
+  theme_minimal()
+```
+
+##Bootstrap Coverage sim_NIDS
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="coverage"&data_type=="sim_NIDS")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  geom_hline(yintercept=0.95,colour="red")+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Coverage",title="Bootstrap Method Coverage - NIDS data ")+
+  theme_minimal()
+```
+
+##Bootstrap Coverage NIDS_outlier
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="coverage"&data_type=="sim_NIDS_outlier")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  geom_hline(yintercept=0.95,colour="red")+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Coverage",title="Bootstrap Method Coverage - NIDS data with generated outliers")+
+  theme_minimal()
+```
+
+##Missed_Upper Real Hetero
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="too_high"&data_type=="real_hetero")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  ylim(0,0.6)+
+  labs(x="Method",y="Missed Percentage - Upper",title="Bootstrap Method Misses (Upper) - Real heteroskedastic data")+
+  theme_minimal()
+```
+
+##Missed Lower real hetero
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="too_low"&data_type=="real_hetero")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Missed Percentage - Upper",title="Bootstrap Method Misses (Lower) - Real heteroskedastic data")+
+  ylim(0,0.6)+
+  theme_minimal()
+```
+
+##Missed_Upper NIDS
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="too_high"&data_type=="sim_NIDS")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  ylim(0,0.1)+
+  labs(x="Method",y="Missed Percentage - Upper",title="Bootstrap Method Misses (Upper) - Real heteroskedastic data")+
+  theme_minimal()
+```
+
+##Missed Lower NIDS
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="too_low"&data_type=="sim_NIDS")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Missed Percentage - Upper",title="Bootstrap Method Misses (Lower) - Real heteroskedastic data")+
+  ylim(0,0.1)+
+  theme_minimal()
+```
+
+##Missed_Upper NIDS outlier
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="too_high"&data_type=="sim_NIDS_outlier")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  ylim(0,0.1)+
+  labs(x="Method",y="Missed Percentage - Upper",title="Bootstrap Method Misses (Upper) - Real heteroskedastic data")+
+  theme_minimal()
+```
+
+##Missed Lower NIDS
+```{r}
+real_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="too_low"&data_type=="sim_NIDS_outlier")%>%
+  ggplot(aes(x=method,y=value,fill=parameter))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_grid(rows=vars(iterations))+
+  coord_flip()+
+  scale_x_discrete(labels=c("Classic","Cases","Cases BCA", "Residual Sampling", "Residual BCA", "Wild", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Missed Percentage - Upper",title="Bootstrap Method Misses (Lower) - Real heteroskedastic data")+
+  ylim(0,0.1)+
+  theme_minimal()
+```
+
+
+
+
+
