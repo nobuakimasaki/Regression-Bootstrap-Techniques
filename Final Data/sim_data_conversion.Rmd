@@ -1,7 +1,7 @@
 ---
-title: "Real Data Conversion"
-author: "Andrew Lin"
-date: "5/3/2020"
+title: "sim_data_conversion"
+author: "Matt Thill"
+date: "5/4/2020"
 output: html_document
 ---
 
@@ -9,15 +9,15 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-real_hetero_60<-read.csv("real_hetero_60.csv")
-real_hetero_120<-read.csv("real_hetero_120.csv")
-real_hetero_240<-read.csv("real_hetero_240.csv")
-sim_NIDS_60<-read.csv("sim_NIDS_60.csv")
-sim_NIDS_120<-read.csv("sim_NIDS_120.csv")
-sim_NIDS_240<-read.csv("sim_NIDS_240.csv")
-sim_NIDS_outlier_60<-read.csv("sim_NIDS_outlier_60.csv")
-sim_NIDS_outlier_120<-read.csv("sim_NIDS_outlier_120.csv")
-sim_NIDS_outlier_240<-read.csv("sim_NIDS_outlier_240.csv")
+sim_hetero_60<-read.csv("sim_hetero_60.csv")
+sim_hetero_120<-read.csv("sim_hetero_120.csv")
+sim_hetero_240<-read.csv("sim_hetero_240.csv")
+sim_normal_60<-read.csv("sim_normal_60.csv")
+sim_normal_120<-read.csv("sim_normal_120.csv")
+sim_normal_240<-read.csv("sim_normal_240.csv")
+sim_outlier_60<-read.csv("sim_outlier_60.csv")
+sim_outlier_120<-read.csv("sim_outlier_120.csv")
+sim_outlier_240<-read.csv("sim_outlier_240.csv")
 ```
 
 #Gathering and cleaning data
@@ -25,207 +25,207 @@ sim_NIDS_outlier_240<-read.csv("sim_NIDS_outlier_240.csv")
   value = actual percentage 
   metric = coverage, missed_high, missed_low
 ```{r}
-real_hetero_60<-real_hetero_60%>%
+sim_hetero_60<-sim_hetero_60%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="real_hetero",
+  mutate(data_type="sim_hetero",
          iterations=60,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(real_hetero_60)){
+for(i in 1:nrow(sim_hetero_60)){
   if(i%%3==1){
-    real_hetero_60$metric[i]<-"coverage"
+    sim_hetero_60$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    real_hetero_60$metric[i]<-"too_high"
+    sim_hetero_60$metric[i]<-"too_high"
   }
   else{
-    real_hetero_60$metric[i]<-"too_low"
+    sim_hetero_60$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-real_hetero_120<-real_hetero_120%>%
+sim_hetero_120<-sim_hetero_120%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="real_hetero",
+  mutate(data_type="sim_hetero",
          iterations=120,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(real_hetero_120)){
+for(i in 1:nrow(sim_hetero_120)){
   if(i%%3==1){
-    real_hetero_120$metric[i]<-"coverage"
+    sim_hetero_120$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    real_hetero_120$metric[i]<-"too_high"
+    sim_hetero_120$metric[i]<-"too_high"
   }
   else{
-    real_hetero_120$metric[i]<-"too_low"
+    sim_hetero_120$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-real_hetero_240<-real_hetero_240%>%
+sim_hetero_240<-sim_hetero_240%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="real_hetero",
+  mutate(data_type="sim_hetero",
          iterations=240,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(real_hetero_240)){
+for(i in 1:nrow(sim_hetero_240)){
   if(i%%3==1){
-    real_hetero_240$metric[i]<-"coverage"
+    sim_hetero_240$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    real_hetero_240$metric[i]<-"too_high"
+    sim_hetero_240$metric[i]<-"too_high"
   }
   else{
-    real_hetero_240$metric[i]<-"too_low"
+    sim_hetero_240$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-sim_NIDS_120<-sim_NIDS_120%>%
+sim_normal_120<-sim_normal_120%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="sim_NIDS",
+  mutate(data_type="sim_normal",
          iterations=120,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(sim_NIDS_120)){
+for(i in 1:nrow(sim_normal_120)){
   if(i%%3==1){
-    sim_NIDS_120$metric[i]<-"coverage"
+    sim_normal_120$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    sim_NIDS_120$metric[i]<-"too_high"
+    sim_normal_120$metric[i]<-"too_high"
   }
   else{
-    sim_NIDS_120$metric[i]<-"too_low"
+    sim_normal_120$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-sim_NIDS_60<-sim_NIDS_60%>%
+sim_normal_60<-sim_normal_60%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="sim_NIDS",
+  mutate(data_type="sim_normal",
          iterations=60,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(sim_NIDS_60)){
+for(i in 1:nrow(sim_normal_60)){
   if(i%%3==1){
-    sim_NIDS_60$metric[i]<-"coverage"
+    sim_normal_60$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    sim_NIDS_60$metric[i]<-"too_high"
+    sim_normal_60$metric[i]<-"too_high"
   }
   else{
-    sim_NIDS_60$metric[i]<-"too_low"
+    sim_normal_60$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-sim_NIDS_240<-sim_NIDS_240%>%
+sim_normal_240<-sim_normal_240%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="sim_NIDS",
+  mutate(data_type="sim_normal",
          iterations=240,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(sim_NIDS_240)){
+for(i in 1:nrow(sim_normal_240)){
   if(i%%3==1){
-    sim_NIDS_240$metric[i]<-"coverage"
+    sim_normal_240$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    sim_NIDS_240$metric[i]<-"too_high"
+    sim_normal_240$metric[i]<-"too_high"
   }
   else{
-    sim_NIDS_240$metric[i]<-"too_low"
+    sim_normal_240$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-sim_NIDS_outlier_60<-sim_NIDS_outlier_60%>%
+sim_outlier_60<-sim_outlier_60%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="sim_NIDS_outlier",
+  mutate(data_type="sim_outlier",
          iterations=60,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(sim_NIDS_outlier_60)){
+for(i in 1:nrow(sim_outlier_60)){
   if(i%%3==1){
-    sim_NIDS_outlier_60$metric[i]<-"coverage"
+    sim_outlier_60$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    sim_NIDS_outlier_60$metric[i]<-"too_high"
+    sim_outlier_60$metric[i]<-"too_high"
   }
   else{
-    sim_NIDS_outlier_60$metric[i]<-"too_low"
+    sim_outlier_60$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-sim_NIDS_outlier_120<-sim_NIDS_outlier_120%>%
+sim_outlier_120<-sim_outlier_120%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="sim_NIDS_outlier",
+  mutate(data_type="sim_outlier",
          iterations=120,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(sim_NIDS_outlier_120)){
+for(i in 1:nrow(sim_outlier_120)){
   if(i%%3==1){
-    sim_NIDS_outlier_120$metric[i]<-"coverage"
+    sim_outlier_120$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    sim_NIDS_outlier_120$metric[i]<-"too_high"
+    sim_outlier_120$metric[i]<-"too_high"
   }
   else{
-    sim_NIDS_outlier_120$metric[i]<-"too_low"
+    sim_outlier_120$metric[i]<-"too_low"
   }
 }
 ```
 
 ```{r}
-sim_NIDS_outlier_240<-sim_NIDS_outlier_240%>%
+sim_outlier_240<-sim_outlier_240%>%
   gather(key="bootstrap_method",value="value",X:sigma_wild_bca)%>%
-  mutate(data_type="sim_NIDS_outlier",
+  mutate(data_type="sim_outlier",
          iterations=240,
          metric="x",
          bootstrap_method=str_replace(bootstrap_method,"_","-"))%>%
   slice(4:n())%>%
   separate(bootstrap_method,"-",into=c("parameter","method"))
-for(i in 1:nrow(sim_NIDS_outlier_240)){
+for(i in 1:nrow(sim_outlier_240)){
   if(i%%3==1){
-    sim_NIDS_outlier_240$metric[i]<-"coverage"
+    sim_outlier_240$metric[i]<-"coverage"
   }
   else if(i%%3==2){
-    sim_NIDS_outlier_240$metric[i]<-"too_high"
+    sim_outlier_240$metric[i]<-"too_high"
   }
   else{
-    sim_NIDS_outlier_240$metric[i]<-"too_low"
+    sim_outlier_240$metric[i]<-"too_low"
   }
 }
 ```
 #Real_data_set
 ```{r}
-real_data_set<-rbind(real_hetero_60,real_hetero_120,real_hetero_240,sim_NIDS_60,sim_NIDS_120,sim_NIDS_240,sim_NIDS_outlier_60,sim_NIDS_outlier_120,sim_NIDS_outlier_240)
+real_data_set<-rbind(sim_hetero_60,sim_hetero_120,sim_hetero_240,sim_normal_60,sim_normal_120,sim_normal_240,sim_outlier_60,sim_outlier_120,sim_outlier_240)
 
-write.csv(real_data_set,"real_data_full.csv")
+write.csv(real_data_set,"sim_data_full.csv")
 ```
 
 
