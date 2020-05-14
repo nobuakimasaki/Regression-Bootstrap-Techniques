@@ -16,7 +16,43 @@ sim_data<-data.frame(sim_data)
 sim_data$method<-factor(sim_data$method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca"))
 ```
 
-##FINAL VERSION: Bootstrap Coverage Sim Hetero
+##FINAL VERSION: Bootstrap Coverage Sim Hetero 60
+```{r}
+sim_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="coverage"&data_type=="sim_hetero"&method%in%c("model","cases_bca","boot_resid_bca","wild_bca")&parameter!="sigma"&iterations==60)%>%
+  ggplot(aes(x=method,y=value,fill=parameter,label=value))+
+  geom_bar(stat="identity",position="dodge")+
+  coord_flip()+
+  geom_hline(yintercept=0.95,colour="red")+
+  scale_x_discrete(labels=c("Classic","Cases BCA", "Residual BCA", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Heteroskedastic Error (n=60)")+
+  geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
+  theme_minimal()
+```
+
+##FINAL VERSION: Bootstrap Coverage Sim Hetero 120
+```{r}
+sim_data%>%
+  select(-X)%>%
+  mutate(method=as.character(method),
+         method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
+  filter(metric=="coverage"&data_type=="sim_hetero"&method%in%c("model","cases_bca","boot_resid_bca","wild_bca")&parameter!="sigma"&iterations==120)%>%
+  ggplot(aes(x=method,y=value,fill=parameter,label=value))+
+  geom_bar(stat="identity",position="dodge")+
+  coord_flip()+
+  geom_hline(yintercept=0.95,colour="red")+
+  scale_x_discrete(labels=c("Classic","Cases BCA", "Residual BCA", "Wild BCA"))+
+  scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
+  labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Heteroskedastic Error (n=120)")+
+  geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
+  theme_minimal()
+```
+
+##FINAL VERSION: Bootstrap Coverage Sim Hetero 240
 ```{r}
 sim_data%>%
   select(-X)%>%
@@ -29,7 +65,7 @@ sim_data%>%
   geom_hline(yintercept=0.95,colour="red")+
   scale_x_discrete(labels=c("Classic","Cases BCA", "Residual BCA", "Wild BCA"))+
   scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
-  labs(x="Method",y="Coverage",title="Bootstrap Method Coverage - Simulated Heteroskedastic Data")+
+  labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Heteroskedastic Error (n=240)")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
 ```
@@ -46,7 +82,7 @@ sim_data%>%
   geom_hline(yintercept=0.95,colour="red")+
   scale_x_discrete(labels=c("Classic","Cases BCA", "Residual BCA", "Wild BCA"))+
   scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
-  labs(x="Method",y="Coverage",title="Bootstrap Method Coverage - Simulated Normal Data")+
+  labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Normal Error (n=240)")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
 ```
@@ -64,7 +100,7 @@ sim_data%>%
   geom_hline(yintercept=0.95,colour="red")+
   scale_x_discrete(labels=c("Classic","Cases BCA", "Residual BCA", "Wild BCA"))+
   scale_fill_manual(name="Parameter",breaks=c("itct","slope","sigma"),labels=c("Intercept","Slope","Sigma"),values=c("#66c2a5","#fc8d62","#8da0cb"))+
-  labs(x="Method",y="Coverage",title="Bootstrap Method Coverage - Simulated Normal w/ Outliers")+
+  labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Normal Error w/ Outliers")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
 ```
