@@ -18,7 +18,7 @@ sim_data$method<-factor(sim_data$method,levels=c("model","cases","cases_bca","bo
 
 ##FINAL VERSION: Bootstrap Coverage Sim Hetero 60
 ```{r}
-sim_data%>%
+sim_data %>%
   select(-X)%>%
   mutate(method=as.character(method),
          method=fct_relevel(method,levels=c("model","cases","cases_bca","boot_resid","boot_resid_bca","wild","wild_bca")))%>%
@@ -32,6 +32,7 @@ sim_data%>%
   labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Heteroskedastic Error (n=60)")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
+ggsave("Sim_Hetero_60.png", width = 211.666666667, height = 211.666666667, unit = "mm")
 ```
 
 ##FINAL VERSION: Bootstrap Coverage Sim Hetero 120
@@ -50,6 +51,7 @@ sim_data%>%
   labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Heteroskedastic Error (n=120)")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
+ggsave("Sim_Hetero_120.png", width = 211.666666667, height = 211.666666667, unit = "mm")
 ```
 
 ##FINAL VERSION: Bootstrap Coverage Sim Hetero 240
@@ -68,7 +70,9 @@ sim_data%>%
   labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Heteroskedastic Error (n=240)")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
+ggsave("Sim_Hetero_240.png", width = 211.666666667, height = 211.666666667, unit = "mm")
 ```
+
 ##FINAL VERSION: Bootstrap Coverage Sim Normal
 ```{r}
 sim_data%>%
@@ -85,6 +89,7 @@ sim_data%>%
   labs(x="Method",y="Coverage",title="Bootstrap Coverage - Sim. Normal Error (n=240)")+
   geom_text(check_overlap=TRUE,size=4,position=position_dodge(width=0.9),hjust=1.1,color="black")+
   theme_minimal()
+ggsave("Sim_Normal_240.png", width = 211.666666667, height = 211.666666667, unit = "mm")
 ```
 
 ##FINAL VERSION: Bootstrap Coverage Sim Normal Outliers
